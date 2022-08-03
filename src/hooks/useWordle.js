@@ -3,10 +3,10 @@ import React, { useState } from "react"
 const useWordle = (answer) => {
     const [userInput, setUserInput] = useState('')
     const [turn, setTurn] = useState(0)
-    const [inputArray, setInputArray] = useState([])
-    const [correctAnswer, setIsCorrectAnswer] = useState(false)
+    const [inputArray, setInputArray] = useState([undefined, undefined, undefined, undefined, undefined, undefined])
+    const [isCorrectAnswer, setIsCorrectAnswer] = useState(false)
 
-    const addNewWord = () => {
+    const addNewWord = (coloredInput) => {
         if (userInput === answer) {
             setIsCorrectAnswer(true)
         }
@@ -17,12 +17,35 @@ const useWordle = (answer) => {
 
         setInputArray((prevInputArray) => {
             let newArray = [...prevInputArray]
-            newArray[turn] = userInput
+            newArray[turn] = coloredInput
 
             return newArray
         })
 
         setUserInput('')
+    }
+
+    const changeColor = () => {
+        let answerArray = answer.split('')
+        let coloredArray = userInput.split('').map((letter) => {
+            return { key: letter, color: '#787c7e' }
+        })
+
+        coloredArray.forEach((letter, i) => {
+            if (answerArray[i] === letter.key) {
+                coloredArray[i].color = '#6aaa64'
+                answerArray[i] = null
+            }
+        })
+
+        coloredArray.forEach((letter, i) => {
+            if (answerArray.includes(letter.key) && letter.color !== '#6aaa64') {
+                coloredArray[i].color = 'yellow'
+                answerArray[answer.indexOf(letter.key)] = null
+            }
+        })
+
+        return coloredArray
     }
 
     const handleClick = (e) => {
@@ -41,7 +64,8 @@ const useWordle = (answer) => {
                 return
             }
 
-            addNewWord()
+            const formattedInput = changeColor()
+            addNewWord(formattedInput)
         }
 
         if (text === 'backspace') {
@@ -59,7 +83,13 @@ const useWordle = (answer) => {
         }
     }
 
-    return { userInput, handleClick }
+    return { 
+        userInput,
+        turn,
+        inputArray,
+        isCorrectAnswer,
+        handleClick
+    }
     
 }
 
