@@ -1,13 +1,19 @@
 import React from 'react'
 import classnames from 'classnames'
 
+type PropsType = {
+    handleClick(e: React.MouseEvent): void;
+}
+
 const KEYPAD = [
     [ "q", "w", "e", "r", "t", "y", "u", "i", "o", "p" ],
     [ "a", "s", "d", "f", "g", "h", "j", "k", "l" ],
     [ "enter", "z", "x", "c", "v", "b", "n", "m", "backspace" ],
 ]
 
-const Keyboard = () => {
+const Keyboard = (props: PropsType) => {
+    const { handleClick } = props
+
     return (
         <div className="keyboard">
             {KEYPAD.map((line, i) => {
@@ -18,6 +24,7 @@ const Keyboard = () => {
                                 <div 
                                     key={value}
                                     className={classnames("key", {"wide": value === "enter" || value === "backspace"})}
+                                    onClick={handleClick}
                                 >
                                     {value}
                                 </div>
