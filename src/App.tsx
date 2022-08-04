@@ -10,10 +10,15 @@ function App() {
     setAnswer(random)
   }, [setAnswer]);
 
+  const handleRestart = () => {
+    const random = data[Math.floor(Math.random()*data.length)]
+    setAnswer(random)
+  }
+
   return (
     <div className="App">
-      <h1>Wordle</h1>
-      {answer && <Container answer={answer}/>}
+      <h1>LET'S PLAY WORDLE🤓💭</h1>
+      {answer && <Container answer={answer} handleRestart={handleRestart} />}
     </div>
   );
 }

@@ -3,7 +3,6 @@ import Row from './Row'
 
 const Grid = (props) => {
     const { input, inputArray, turn } = props;
-    console.log(input)
 
     return (
         <div>
