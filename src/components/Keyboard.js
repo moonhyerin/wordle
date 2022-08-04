@@ -8,7 +8,7 @@ const KEYPAD = [
 ]
 
 const Keyboard = (props) => {
-    const { handleClick } = props
+    const { handleClick, usedKeys } = props
 
     return (
         <div className="keyboard">
@@ -16,10 +16,12 @@ const Keyboard = (props) => {
                 return (
                     <div key={i} className="line">
                         {line.map((value) => {
+                            const color = usedKeys[value]
                             return (
                                 <div 
                                     key={value}
                                     className={classnames("key", {"wide": value === "enter" || value === "backspace"})}
+                                    style={{ background: color }}
                                     onClick={handleClick}
                                 >
                                     {value}
